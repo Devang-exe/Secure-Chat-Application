@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureChatApplication</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .forms {
+            flex: 0.3;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.8)), url("https://images.unsplash.com/photo-1579567761406-4684ee0c75b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y3liZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60");
+            height: 100vh;
+            width: 40%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        form {
+            text-align: center;
+            color: #fff;
+        }
+
+        .header {
+            color: #fff; 
+        }
+
+        button {
+            border: none;
+            color: #fff;
+            background: #6BCB77;
+            width: 20rem;
+            padding: 1rem 0;
+            border-radius: 10px;
+            box-shadow: 2px 1px 10px 1px rgba(0, 0, 0, 0.4);
+            cursor: pointer;    
+        }
+
+        input {
+            padding: 1rem 0.5rem;
+            border-radius: 10px;
+            border: 1px solid #000;
+            width: 20rem;
+            margin-bottom: 1rem;
+        }
+
+        .generate-key {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .generate-key button {
+            margin-bottom: 1rem;
+        }
+
+        .encrypt-msg button {
+            margin-bottom: 1rem;
+        }
+
+        .all-msg {
+            margin-left: 860px;
+            flex: 0.7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .all-msg h2 {
+            color: #6BCB77;
+        }
+
+        .msg{
+            width: 20rem;
+        } 
+
+        .msg:nth-child(odd) {
+            background: #6BCB77;
+            color: #fff;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 2px 2px 15px 1px rgba(0, 0, 0, 0.4);
+        }
+
+        .msg:nth-child(even) {
+            background: #fff;
+            color: #6BCB77;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            border: 2px solid #6BCB77;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="forms">
+    <center class="header">
+        <h1>Welcome <%= userId %> </h1>
+    </center>
+   
+    <br>
+    <form action="/generateKey" method="post" class="generate-key">
+        <button>Generate Key</button>
+        <%= key %> 
+    </form>
+    <br>
+    <br>
+    <form action="/encryptMessage" method="post" class="encrypt-msg">
+        <input type="text" name="message" >
+        <button>Encrypt Message</button>
+        <br>
+        <%if ( encmsg !== "" ) {%>
+            Encrypted Message: <%= encmsg %>
+        <%}%>
+    </form>
+    <br>
+    <%if ( encmsg !== "" ) {%>
+    <form action="/send" method="post">
+        <button>Send Message</button>
+    </form>
+    <%}%>
+    <br>
+    <br>
+    <form action="/retrieveMessage" method="post">
+        <button>Retrieve Message</button>
+    </form>
+    <br>
+</div>
+    <!-- <hr> -->
+    <div class="all-msg">
+    <h2>All Messages</h2>
+    <div class="msgs">
+
+        <% decmsgs.forEach ( function (d){ %> 
+            <div class="msg">
+            <%= d.time %> <br>
+            <%= d.userid %> &nbsp; <%= d.decmsg %> <br>
+            <br>
+        </div>
+        <%})%>
+    </div>
+</div>
+</body>
+</html>
